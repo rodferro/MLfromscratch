@@ -17,23 +17,24 @@ class LogisticRegression:
 
         # gradient descent
         for _ in range(self.n_iters):
-            # approximate y with linear combination of weights and x, plus bias
-            linear_model = np.dot(X, self.weights) + self.bias
-            # apply sigmoid function
-            y_predicted = self._sigmoid(linear_model)
+            y_predicted = self.predict_proba(X)
 
             # compute gradients
             dw = (1 / n_samples) * np.dot(X.T, (y_predicted - y))
             db = (1 / n_samples) * np.sum(y_predicted - y)
+            
             # update parameters
             self.weights -= self.lr * dw
             self.bias -= self.lr * db
 
     def predict(self, X):
-        linear_model = np.dot(X, self.weights) + self.bias
-        y_predicted = self._sigmoid(linear_model)
+        y_predicted = self.predict_proba(X)
         y_predicted_cls = [1 if i > 0.5 else 0 for i in y_predicted]
         return np.array(y_predicted_cls)
+
+    def predict_proba(self, X):
+        linear_regression = np.dot(X, self.weights) + self.bias
+        return self._sigmoid(linear_regression)
 
     def _sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
@@ -60,4 +61,4 @@ if __name__ == "__main__":
     regressor.fit(X_train, y_train)
     predictions = regressor.predict(X_test)
 
-    print("LR classification accuracy:", accuracy(y_test, predictions))
+    print("Accuracy:", accuracy(y_test, predictions))
