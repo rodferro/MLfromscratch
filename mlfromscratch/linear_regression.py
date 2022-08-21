@@ -1,12 +1,6 @@
 import numpy as np
 
 
-def r2_score(y_true, y_pred):
-    corr_matrix = np.corrcoef(y_true, y_pred)
-    corr = corr_matrix[0, 1]
-    return corr ** 2
-
-
 class LinearRegression:
     def __init__(self, learning_rate=0.001, n_iters=1000):
         self.lr = learning_rate
@@ -23,7 +17,8 @@ class LinearRegression:
 
         # gradient descent
         for _ in range(self.n_iters):
-            y_predicted = np.dot(X, self.weights) + self.bias
+            y_predicted = self.predict(X)
+
             # compute gradients
             dw = (1 / n_samples) * np.dot(X.T, (y_predicted - y))
             db = (1 / n_samples) * np.sum(y_predicted - y)
@@ -33,8 +28,7 @@ class LinearRegression:
             self.bias -= self.lr * db
 
     def predict(self, X):
-        y_approximated = np.dot(X, self.weights) + self.bias
-        return y_approximated
+        return np.dot(X, self.weights) + self.bias
 
 
 # Testing
@@ -46,6 +40,11 @@ if __name__ == "__main__":
 
     def mean_squared_error(y_true, y_pred):
         return np.mean((y_true - y_pred) ** 2)
+
+    def r2_score(y_true, y_pred):
+        corr_matrix = np.corrcoef(y_true, y_pred)
+        corr = corr_matrix[0, 1]
+        return corr ** 2
 
     X, y = datasets.make_regression(
         n_samples=100, n_features=1, noise=20, random_state=4
@@ -62,8 +61,8 @@ if __name__ == "__main__":
     mse = mean_squared_error(y_test, predictions)
     print("MSE:", mse)
 
-    accu = r2_score(y_test, predictions)
-    print("Accuracy:", accu)
+    r2 = r2_score(y_test, predictions)
+    print("R2:", r2)
 
     y_pred_line = regressor.predict(X)
     cmap = plt.get_cmap("viridis")
