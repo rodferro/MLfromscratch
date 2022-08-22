@@ -20,7 +20,7 @@ class LinearRegression:
             y_predicted = self.predict(X)
 
             # compute gradients
-            dw = (1 / n_samples) * np.dot(X.T, (y_predicted - y))
+            dw = (1 / n_samples) * np.dot(X.T, y_predicted - y)
             db = (1 / n_samples) * np.sum(y_predicted - y)
 
             # update parameters
