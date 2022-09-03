@@ -18,15 +18,15 @@ class SVM:
         self.b = 0
 
         for _ in range(self.n_iters):
-            for idx, x_i in enumerate(X):
-                condition = y_[idx] * (np.dot(x_i, self.w) - self.b) >= 1
+            for x_i, y_i in zip(X, y_):
+                condition = y_i * (np.dot(x_i, self.w) - self.b) >= 1
                 if condition:
                     self.w -= self.lr * (2 * self.lambda_param * self.w)
                 else:
                     self.w -= self.lr * (
-                        2 * self.lambda_param * self.w - np.dot(x_i, y_[idx])
+                        2 * self.lambda_param * self.w - np.dot(x_i, y_i)
                     )
-                    self.b -= self.lr * y_[idx]
+                    self.b -= self.lr * y_i
 
     def predict(self, X):
         approx = np.dot(X, self.w) - self.b
