@@ -33,8 +33,7 @@ class LogisticRegression:
         return np.array(y_predicted_cls)
 
     def predict_proba(self, X):
-        linear_regression = np.dot(X, self.weights) + self.bias
-        return self._sigmoid(linear_regression)
+        return self._sigmoid(np.dot(X, self.weights) + self.bias)
 
     def _sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
