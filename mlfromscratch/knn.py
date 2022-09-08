@@ -25,7 +25,7 @@ class KNN:
         # Sort by distance and return indices of the first k neighbors
         k_idx = np.argsort(distances)[: self.k]
         # Extract the labels of the k nearest neighbor training samples
-        k_neighbor_labels = [self.y_train[i] for i in k_idx]
+        k_neighbor_labels = self.y_train[k_idx]
         # return the most common class label
         most_common = Counter(k_neighbor_labels).most_common(1)
         return most_common[0][0]
