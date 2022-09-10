@@ -25,7 +25,7 @@ class KMeans:
 
         # initialize
         random_sample_idxs = np.random.choice(self.n_samples, self.K, replace=False)
-        self.centroids = [self.X[idx] for idx in random_sample_idxs]
+        self.centroids = self.X[random_sample_idxs]
 
         # Optimize clusters
         for _ in range(self.max_iters):
